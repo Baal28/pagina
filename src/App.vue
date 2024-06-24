@@ -1,9 +1,10 @@
 <template>
   <v-app>
+    
     <AppBar></AppBar>
-  <v-container>
     <AppGallery></AppGallery>
-  </v-container>
+  
+
   </v-app>
 
 </template>

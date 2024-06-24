@@ -29,14 +29,16 @@
             ></v-progress-circular>
           </v-row>
         </template>
+        
         <v-overlay
         :model-value="isHovering"
         class="align-center justify-center"
         contained
-        v-for="post in posts" :key="post.id"
+        
       >
       
-        <v-btn variant="flat"><h5> {{ post.id }}</h5><p style="max-width: fit-content">{{ post.value }}</p></v-btn>
+        <v-btn variant="flat"> {{ posts.value }} </v-btn>
+      
       </v-overlay>
         
       </v-img>
