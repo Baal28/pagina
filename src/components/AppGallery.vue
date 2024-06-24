@@ -1,72 +1,70 @@
 <template>
   <v-app>
-  <v-row>
-    <v-col
-      v-for="n in 9"
-      :key="n"
-      class="d-flex child-flex justify-center"
-      cols="4"
-      
-    >
-    <v-hover v-slot="{ isHovering, props }" >
-      
-      <v-img v-bind="props"
-        :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-        aspect-ratio="1"
-        
-        cover
+    <v-row>
+      <v-col
+        v-for="item in posts"
+        :key="item.id"
+        class="d-flex child-flex justify-center"
+        cols="4"
       >
-        <template v-slot:placeholder>
-          <v-row
-            align="center"
-            class="fill-height ma-0"
-            justify="center"
+        <v-hover v-slot="{ isHovering, props }">
+          <v-img
+            v-bind="props"
+            :lazy-src="`https://picsum.photos/10/6?image=${item.id}`"
+            :src="`https://picsum.photos/500/300?image=${item.id}`"
+            aspect-ratio="1"
+            cover
           >
-            <v-progress-circular
-              color="grey-lighten-5"
-              indeterminate
-            ></v-progress-circular>
-          </v-row>
-        </template>
-        
-        <v-overlay
-        :model-value="isHovering"
-        class="align-center justify-center"
-        contained
-        
-      >
-      
-        <v-btn variant="flat"> {{ posts.value }} </v-btn>
-      
-      </v-overlay>
-        
-      </v-img>
-    
-    </v-hover>
-      
-    </v-col>
-    
-  </v-row>
-</v-app>
+            <template v-slot:placeholder>
+              <v-row align="center" class="fill-height ma-0" justify="center">
+                <v-progress-circular
+                  color="grey-lighten-5"
+                  indeterminate
+                ></v-progress-circular>
+              </v-row>
+            </template>
+
+            <v-overlay
+              :model-value="isHovering"
+              class="align-center justify-center"
+              contained
+              style="background-color: black"
+            >
+              {{ item.joke }}
+            </v-overlay>
+          </v-img>
+        </v-hover>
+      </v-col>
+    </v-row>
+  </v-app>
 </template>
 
 <script>
+import axios from "axios";
 
-import axios from 'axios'
-
-
-  export default{
-    data() {
-      return {
-        posts: []
+export default {
+  data() {
+    return {
+      posts: [],
+    };
+  },
+  methods: {
+    async getJoke() {
+      const result = await axios.get("https://api.chucknorris.io/jokes/random");
+      return result.data.value;
+    },
+    async buildObject() {
+      const totalImages = 9;
+      for (let index = 0; index < totalImages; index++) {
+        const obj = {};
+        obj.id = index + 1;
+        obj.joke = await this.getJoke();
+        this.posts.push(obj);
       }
     },
-    mounted() {
-      axios.get('https://api.chucknorris.io/jokes/random')
-        .then(response => this.posts = response.data)
-    },
-  }
+  },
+  mounted() {
+    this.buildObject();
+  },
+};
 </script>
-
-
