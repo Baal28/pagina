@@ -10,8 +10,8 @@
         <v-hover v-slot="{ isHovering, props }">
           <v-img
             v-bind="props"
-            :lazy-src="`https://picsum.photos/10/6?image=${item.id}`"
-            :src="`https://picsum.photos/500/300?image=${item.id}`"
+            :lazy-src="`https://picsum.photos/10/6?image=${item.id * 5 + 10}`"
+            :src="`https://picsum.photos/500/300?image=${item.id * 5 + 10}`"
             aspect-ratio="1"
             cover
           >
@@ -26,7 +26,7 @@
 
             <v-overlay
               :model-value="isHovering"
-              class="align-center justify-center"
+              class="align-center justify-center blur-on-hover"
               contained
               style="background-color: black"
             >
